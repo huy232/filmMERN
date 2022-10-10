@@ -20,6 +20,7 @@ export const dispatchGetUser = (res) => {
 		payload: {
 			user: res.data,
 			isAdmin: res.data.role === 1 ? true : false,
+			isEmployee: res.data.role === 2 ? true : false,
 		},
 	}
 }

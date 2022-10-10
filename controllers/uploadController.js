@@ -30,6 +30,50 @@ const uploadController = {
 			return res.status(500).json({ msg: err.message })
 		}
 	},
+	uploadFilmBanner: (req, res) => {
+		try {
+			const file = req.files.file
+			cloudinary.v2.uploader.upload(
+				file.tempFilePath,
+				{
+					folder: "filmBanner",
+					width: 1900,
+					height: 400,
+					crop: "crop",
+				},
+				(err, result) => {
+					if (err) throw err
+
+					removeTmp(file.tempFilePath)
+					res.json({ url: result.secure_url })
+				}
+			)
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
+	uploadFilmImage: (req, res) => {
+		try {
+			const file = req.files.file
+			cloudinary.v2.uploader.upload(
+				file.tempFilePath,
+				{
+					folder: "filmImage",
+					width: 180,
+					height: 260,
+					crop: "fill",
+				},
+				(err, result) => {
+					if (err) throw err
+
+					removeTmp(file.tempFilePath)
+					res.json({ url: result.secure_url })
+				}
+			)
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
 }
 
 const removeTmp = (path) => {

@@ -1,0 +1,15 @@
+.subscription-plan {
+	display: flex;
+	flex-direciton: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.subs {
+	width: 200px;
+}
+
+.subs__buy-now-btn {
+	cursor: pointer;
+	background-color: rgb(58, 55, 55);
+}

@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
 			default:
 				"https://res.cloudinary.com/dwg2oc5rv/image/upload/v1664652289/avatar/z5dtdjpylmfy70vjz7oi.png",
 		},
+		stripeCustomerId: {
+			type: String,
+			required: true,
+		},
 	},
 	{ timestamps: true }
 )

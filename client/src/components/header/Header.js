@@ -6,7 +6,7 @@ import axios from "axios"
 function Header() {
 	const auth = useSelector((state) => state.auth)
 
-	const { user, isLogged } = auth
+	const { user, isLogged, isAdmin, isEmployee } = auth
 
 	const handleLogout = async () => {
 		try {
@@ -14,7 +14,6 @@ function Header() {
 			localStorage.removeItem("firstLogin")
 			window.location.href = "/"
 		} catch (err) {
-			console.log("Error then run here")
 			window.location.href = "/"
 		}
 	}
@@ -48,11 +47,15 @@ function Header() {
 				</h1>
 			</div>
 			<ul>
-				<li>
-					<Link to="/film">
-						<i className="fas fa-film" /> Film
-					</Link>
-				</li>
+				{isAdmin || isEmployee ? (
+					<li>
+						<Link to="/film-upload">
+							<i className="fas fa-film" /> Film Upload
+						</Link>
+					</li>
+				) : (
+					""
+				)}
 				{isLogged ? (
 					userLink()
 				) : (

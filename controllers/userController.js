@@ -1,9 +1,13 @@
 const Users = require("../models/userModel")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const { google } = require("googleapis")
 const sendMail = require("./sendMail")
 const { CLIENT_URL } = process.env
+const Stripe = require("stripe")
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+	apiVersion: "2022-08-01",
+})
 
 const userController = {
 	register: async (req, res) => {
@@ -59,10 +63,20 @@ const userController = {
 			if (check)
 				return res.status(400).json({ msg: "This email is already exist" })
 
+			const stripeCustomer = await stripe.customers.create(
+				{
+					email,
+				},
+				{
+					apiKey: process.env.STRIPE_SECRET_KEY,
+				}
+			)
+
 			const newUser = new Users({
 				name,
 				email,
 				password,
+				stripeCustomerId: stripeCustomer.id,
 			})
 
 			await newUser.save()
@@ -228,11 +242,21 @@ const userController = {
 				})
 				res.json({ msg: "Login Success" })
 			} else {
+				const stripeCustomer = await stripe.customers.create(
+					{
+						email,
+					},
+					{
+						apiKey: process.env.STRIPE_SECRET_KEY,
+					}
+				)
+
 				const newUser = new Users({
 					name,
 					email,
 					password: passwordHash,
 					avatar: picture,
+					stripeCustomerId: stripeCustomer.id,
 				})
 				await newUser.save()
 				const refresh_token = createRefreshToken({ id: newUser._id })
@@ -263,7 +287,7 @@ const createActivationToken = (payload) => {
 
 const createAccessToken = (payload) => {
 	return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: "15m",
+		expiresIn: "1d",
 	})
 }
 

@@ -1,5 +1,6 @@
 import React from "react"
 import { Routes, Route } from "react-router-dom"
+import { useSelector } from "react-redux"
 import ActivationEmail from "./auth/ActivationEmail"
 import Login from "./auth/Login"
 import Register from "./auth/Register"
@@ -8,11 +9,12 @@ import ResetPassword from "./auth/ResetPassword"
 import Profile from "./profile/Profile"
 import NotFound from "../utils/notfound/NotFound"
 import EditUser from "./profile/EditUser"
+import Subscription from "./subscription/Subscription"
+import FilmUpload from "./filmupload/FilmUpload"
 
-import { useSelector } from "react-redux"
 function Body() {
 	const auth = useSelector((state) => state.auth)
-	const { isLogged, isAdmin } = auth
+	const { isLogged, isAdmin, isEmployee } = auth
 
 	return (
 		<section>
@@ -53,6 +55,14 @@ function Body() {
 				<Route
 					path="/edit-user/:id"
 					element={isAdmin ? <EditUser /> : <NotFound />}
+					exact
+				/>
+
+				<Route path="/plan" element={<Subscription />} exact />
+
+				<Route
+					path="/film-upload"
+					element={isEmployee || isAdmin ? <FilmUpload /> : <NotFound />}
 					exact
 				/>
 			</Routes>

@@ -9,23 +9,35 @@ const filmSchema = new mongoose.Schema(
 		},
 		filmDescription: {
 			type: String,
-			default: 0,
 		},
 		type: {
 			type: String,
 			required: [true, "Specific movie or series"],
 			trim: true,
 		},
-		genres: [{ type: String, required: [true, "Enter at least one genre"] }],
+		genres: [
+			{
+				genre: {
+					type: String,
+					required: [true, "Enter at least one genre"],
+				},
+				_id: false,
+			},
+		],
 		filmBanner: {
 			type: String,
-			default: "dummyFilmImgBannerURL.jpg",
 		},
 		filmImage: {
 			type: String,
-			default: "dummyFilmImgURL.jpg",
 		},
-		episode: [{ episodeName: { type: String } }],
+		filmSlug: {
+			type: String,
+			require: [true, "Please provide the film with slug"],
+		},
+		episode: [{ episodeName: { type: String }, _id: false }],
+		filmComment: [
+			{ userId: { type: String }, userComment: { type: String }, _id: false },
+		],
 	},
 	{ timestamps: true }
 )

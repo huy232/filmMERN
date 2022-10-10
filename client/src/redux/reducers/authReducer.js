@@ -4,6 +4,7 @@ const initialState = {
 	user: [],
 	isLogged: false,
 	isAdmin: false,
+	isEmployee: false,
 }
 
 const authReducer = (state = initialState, action) => {
@@ -18,6 +19,7 @@ const authReducer = (state = initialState, action) => {
 				...state,
 				user: action.payload.user,
 				isAdmin: action.payload.isAdmin,
+				isEmployee: action.payload.isEmployee,
 			}
 		default:
 			return state

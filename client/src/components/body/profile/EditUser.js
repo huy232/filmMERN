@@ -55,7 +55,6 @@ function EditUser() {
 
 	return (
 		<>
-			{console.log(editUser)}
 			<div className="profile-page edit-user">
 				<div className="row">
 					<button onClick={() => navigate(-1)} className="go_back">

@@ -25,7 +25,7 @@ function Profile() {
 	const token = useSelector((state) => state.token)
 	const users = useSelector((state) => state.users)
 
-	const { user, isAdmin } = auth
+	const { user, isAdmin, isEmployee } = auth
 
 	const [data, setData] = useState(initialState)
 	const [avatar, setAvatar] = useState(false)
@@ -43,7 +43,6 @@ function Profile() {
 		if (isAdmin) {
 			fetchUsers()
 		}
-		fetchUsers()
 	}, [dispatch, isAdmin, token, callback])
 
 	const handleChange = (e) => {
@@ -146,16 +145,15 @@ function Profile() {
 
 					<div className="avatar">
 						<img src={avatar ? avatar : user.avatar} alt="" />
-						<span>
+						<div className="avatar-holder">
 							<i className="fas fa-camera"></i>
-							<p>Change</p>
 							<input
 								type="file"
 								name="file"
 								id="file_up"
 								onChange={updateAvatar}
 							/>
-						</span>
+						</div>
 					</div>
 
 					<div className="form-group">
