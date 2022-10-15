@@ -13,13 +13,15 @@ const initialState = {
 	genres: [],
 	filmImage: "",
 	filmBanner: "",
-	filmSlug: "",
 	episode: [],
 	success: "",
 	err: "",
 }
 
 function FilmUpload() {
+	const auth = useSelector((state) => state.auth)
+	const token = useSelector((state) => state.token)
+
 	const [data, setData] = useState(initialState)
 	// IMAGE
 	const [selectedImage, setSelectedImage] = useState()
@@ -28,18 +30,7 @@ function FilmUpload() {
 	const [selectedBanner, setSelectedBanner] = useState()
 	const [previewBanner, setPreviewBanner] = useState()
 
-	const {
-		filmName,
-		filmDescription,
-		type,
-		genres,
-		filmImage,
-		filmBanner,
-		filmSlug,
-		episode,
-		success,
-		err,
-	} = data
+	const { filmName, filmDescription, type, genres, success, err } = data
 
 	useEffect(() => {
 		let objectUrlImage, objectUrlBanner
@@ -54,9 +45,6 @@ function FilmUpload() {
 			setPreviewBanner(objectUrlBanner)
 		} else if (!selectedBanner) setPreviewBanner(undefined)
 
-		if (!selectedImage || !selectedBanner) {
-			return
-		}
 		// free memory when ever this component is unmounted
 		return () => {
 			URL.revokeObjectURL(objectUrlImage)
@@ -71,7 +59,6 @@ function FilmUpload() {
 			return
 		}
 		const file = e.target.files[0]
-		// I've kept this example simple by using the first image instead of multiple
 		setSelectedImage(file)
 	}
 
@@ -82,7 +69,6 @@ function FilmUpload() {
 			return
 		}
 		const file = e.target.files[0]
-		// I've kept this example simple by using the first image instead of multiple
 		setSelectedBanner(file)
 	}
 
@@ -96,8 +82,6 @@ function FilmUpload() {
 		setData({ ...data, type: value })
 	}
 
-	const handleSubmit = () => {}
-
 	const handleCheckbox = (e) => {
 		let checkboxList = [...genres]
 
@@ -109,9 +93,132 @@ function FilmUpload() {
 		setData({ ...data, genres: checkboxList, err: "", success: "" })
 	}
 
+	const handleSubmit = async () => {
+		try {
+			// -------------- IMAGE -----------
+			if (!selectedImage)
+				return setData({ ...data, err: "No file were uploaded", success: "" })
+			if (selectedImage.size > 1024 * 1024 * 2)
+				return setData({
+					...data,
+					err: "Size too large, limit < 2MB",
+					success: "",
+				})
+			if (
+				selectedImage.type !== "image/jpeg" &&
+				selectedImage.type !== "image/png"
+			) {
+				return setData({
+					...data,
+					err: "File format is incorrect",
+					success: "",
+				})
+			}
+
+			let formSelectedImage = new FormData()
+			formSelectedImage.append("file", selectedImage)
+
+			const imageResponse = await axios.post(
+				"/api/upload-film-image",
+				formSelectedImage,
+				{
+					headers: {
+						"content-type": "multipart/form-data",
+						Authorization: token,
+					},
+				}
+			)
+
+			// --------------------------
+			// -------------- BANNER --------------
+			if (!selectedBanner)
+				return setData({ ...data, err: "No file were uploaded", success: "" })
+			if (selectedBanner.size > 1024 * 1024 * 5)
+				return setData({
+					...data,
+					err: "Size too large, limit < 5MB",
+					success: "",
+				})
+			if (
+				selectedBanner.type !== "image/jpeg" &&
+				selectedBanner.type !== "image/png"
+			) {
+				return setData({
+					...data,
+					err: "File format is incorrect",
+					success: "",
+				})
+			}
+
+			let formSelectedBanner = new FormData()
+			formSelectedBanner.append("file", selectedBanner)
+
+			const bannerResponse = await axios.post(
+				"/api/upload-film-banner",
+				formSelectedBanner,
+				{
+					headers: {
+						"content-type": "multipart/form-data",
+						Authorization: token,
+					},
+				}
+			)
+
+			const formBody = {
+				filmName,
+				filmDescription,
+				type,
+				genres,
+				filmImage: imageResponse.data.url,
+				filmBanner: bannerResponse.data.url,
+			}
+
+			await axios
+				.post("/film/create-film", formBody, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: token,
+					},
+				})
+				.then((res) => {
+					if (res.status === 200) {
+						const clist = document.getElementsByTagName("input")
+						for (const el of clist) {
+							el.checked = false
+						}
+
+						setData({
+							filmName: "",
+							filmDescription: "",
+							type: "",
+							genres: [],
+							filmImage: "",
+							filmBanner: "",
+							episode: [],
+							success: "Success create a film",
+							err: "",
+						})
+						URL.revokeObjectURL(preview)
+						URL.revokeObjectURL(previewBanner)
+					}
+				})
+				.then(() => {
+					setSelectedImage()
+					setSelectedBanner()
+				})
+		} catch (err) {
+			setData({ ...data, err: err.response.data.msg, success: "" })
+		}
+	}
+
 	return (
 		<>
-			{console.log(data)}
+			{console.log({
+				selectedImage: selectedImage,
+				preview: preview,
+				selectedBanner: selectedBanner,
+				previewBanner: previewBanner,
+			})}
 			{err && showErrMsg(err)}
 			{success && showSuccessMsg(success)}
 			<div className="film-upload">
@@ -161,6 +268,49 @@ function FilmUpload() {
 						value="Comedy"
 					/>
 					<label htmlFor="comedy-genre">Comedy</label>
+
+					<input
+						type="checkbox"
+						id="mystery-genre"
+						name="genre"
+						value="Mystery"
+					/>
+					<label htmlFor="mystery-genre">Mystery</label>
+
+					<input type="checkbox" id="drama-genre" name="genre" value="Drama" />
+					<label htmlFor="drama-genre">Drama</label>
+
+					<input
+						type="checkbox"
+						id="fantasy-genre"
+						name="genre"
+						value="Fantasy"
+					/>
+					<label htmlFor="fantasy-genre">Fantasy</label>
+
+					<input
+						type="checkbox"
+						id="horror-genre"
+						name="genre"
+						value="Horror"
+					/>
+					<label htmlFor="horror-genre">Horror</label>
+
+					<input
+						type="checkbox"
+						id="romance-genre"
+						name="genre"
+						value="Romance"
+					/>
+					<label htmlFor="romance-genre">Romance</label>
+
+					<input
+						type="checkbox"
+						id="sci-fi-genre"
+						name="sci-fi"
+						value="Sci-fi"
+					/>
+					<label htmlFor="sci-fi-genre">Sci-fi</label>
 				</div>
 
 				<div className="film-upload-image">

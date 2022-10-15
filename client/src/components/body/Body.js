@@ -11,6 +11,7 @@ import NotFound from "../utils/notfound/NotFound"
 import EditUser from "./profile/EditUser"
 import Subscription from "./subscription/Subscription"
 import FilmUpload from "./filmupload/FilmUpload"
+import FilmManagement from "./filmmanagement/FilmManagement"
 
 function Body() {
 	const auth = useSelector((state) => state.auth)
@@ -63,6 +64,12 @@ function Body() {
 				<Route
 					path="/film-upload"
 					element={isEmployee || isAdmin ? <FilmUpload /> : <NotFound />}
+					exact
+				/>
+
+				<Route
+					path="/film-management"
+					element={isEmployee || isAdmin ? <FilmManagement /> : <NotFound />}
 					exact
 				/>
 			</Routes>

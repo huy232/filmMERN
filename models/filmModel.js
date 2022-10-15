@@ -35,9 +35,9 @@ const filmSchema = new mongoose.Schema(
 			require: [true, "Please provide the film with slug"],
 		},
 		episode: [{ episodeName: { type: String }, _id: false }],
-		filmComment: [
-			{ userId: { type: String }, userComment: { type: String }, _id: false },
-		],
+		// filmComment: [
+		// 	{ userId: { type: String }, userComment: { type: String }, _id: false },
+		// ],
 	},
 	{ timestamps: true }
 )

@@ -10,15 +10,11 @@ router.post("/upload-avatar", uploadImage, auth, uploadController.uploadAvatar)
 router.post(
 	"/upload-film-image",
 	uploadFilmImage,
-	auth,
-	authTwoRole,
 	uploadController.uploadFilmImage
 )
 router.post(
 	"/upload-film-banner",
 	uploadFilmBanner,
-	auth,
-	authTwoRole,
 	uploadController.uploadFilmBanner
 )
 

@@ -48,11 +48,18 @@ function Header() {
 			</div>
 			<ul>
 				{isAdmin || isEmployee ? (
-					<li>
-						<Link to="/film-upload">
-							<i className="fas fa-film" /> Film Upload
-						</Link>
-					</li>
+					<>
+						<li>
+							<Link to="/film-management">
+								<i className="fas fa-tasks" /> Film Management
+							</Link>
+						</li>
+						<li>
+							<Link to="/film-upload">
+								<i className="fas fa-film" /> Film Upload
+							</Link>
+						</li>
+					</>
 				) : (
 					""
 				)}

@@ -5,4 +5,8 @@ const authTwoRole = require("../middleware/authTwoRole")
 
 router.post("/create-film", filmController.createFilm)
 
+router.get("/movies", filmController.getMovies)
+
+router.get("/series", filmController.getSeries)
+
 module.exports = router

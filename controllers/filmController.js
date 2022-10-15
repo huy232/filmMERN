@@ -1,17 +1,19 @@
 const Users = require("../models/userModel")
 const Films = require("../models/filmModel")
 const { CLIENT_URL } = process.env
+const { toSlug } = require("../utils/index")
 const Stripe = require("stripe")
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 	apiVersion: "2022-08-01",
 })
 
+const ITEMS_PER_PAGE = 4
+
 const filmController = {
 	createFilm: async (req, res) => {
 		const {
 			filmName,
-			filmSlug,
 			filmDescription,
 			type,
 			genres,
@@ -19,6 +21,8 @@ const filmController = {
 			filmImage,
 			episode,
 		} = req.body
+
+		const filmSlug = toSlug(filmName)
 
 		if (!filmSlug || !filmName || !type || genres.length == 0)
 			return res
@@ -46,7 +50,51 @@ const filmController = {
 			episode,
 		})
 
+		newFilm.save()
+
 		return res.json({ msg: "Successful create a film" })
+	},
+	getMovies: async (req, res) => {
+		const page = req.query.page || 1
+
+		const query = { type: "movie" }
+
+		try {
+			const skip = (page - 1) * ITEMS_PER_PAGE
+			const count = await Films.countDocuments(query)
+			const films = await Films.find(query).limit(ITEMS_PER_PAGE).skip(skip)
+			const pageCount = Math.ceil(count / ITEMS_PER_PAGE)
+			res.json({
+				films: films,
+				pagination: {
+					count,
+					pageCount,
+				},
+			})
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
+	getSeries: async (req, res) => {
+		const page = req.query.page || 1
+
+		const query = { type: "series" }
+
+		try {
+			const skip = (page - 1) * ITEMS_PER_PAGE
+			const count = await Films.countDocuments(query)
+			const films = await Films.find(query).limit(ITEMS_PER_PAGE).skip(skip)
+			const pageCount = Math.ceil(count / ITEMS_PER_PAGE)
+			res.json({
+				films: films,
+				pagination: {
+					count,
+					pageCount,
+				},
+			})
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
 	},
 }
 
