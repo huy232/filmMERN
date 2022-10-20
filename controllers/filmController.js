@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 	apiVersion: "2022-08-01",
 })
 
-const ITEMS_PER_PAGE = 4
+const ITEMS_PER_PAGE = 2
 
 const filmController = {
 	createFilm: async (req, res) => {
@@ -55,43 +55,106 @@ const filmController = {
 		return res.json({ msg: "Successful create a film" })
 	},
 	getMovies: async (req, res) => {
+		const { filmName } = req.query || ""
 		const page = req.query.page || 1
 
-		const query = { type: "movie" }
+		const query = {
+			type: "movie",
+			filmName: { $regex: `${filmName}`, $options: "i" },
+		}
 
 		try {
 			const skip = (page - 1) * ITEMS_PER_PAGE
 			const count = await Films.countDocuments(query)
 			const films = await Films.find(query).limit(ITEMS_PER_PAGE).skip(skip)
 			const pageCount = Math.ceil(count / ITEMS_PER_PAGE)
-			res.json({
-				films: films,
-				pagination: {
-					count,
-					pageCount,
-				},
-			})
+
+			if (films.length === 0) {
+				res.json({
+					films: "",
+					pagination: {
+						count: 0,
+						pageCount: 1,
+					},
+				})
+			} else {
+				res.json({
+					films: films,
+					pagination: {
+						count,
+						pageCount,
+					},
+				})
+			}
 		} catch (err) {
 			return res.status(500).json({ msg: err.message })
 		}
 	},
 	getSeries: async (req, res) => {
+		const { filmName } = req.query || ""
 		const page = req.query.page || 1
 
-		const query = { type: "series" }
+		const query = {
+			type: "series",
+			filmName: { $regex: `${filmName}`, $options: "i" },
+		}
 
 		try {
 			const skip = (page - 1) * ITEMS_PER_PAGE
 			const count = await Films.countDocuments(query)
 			const films = await Films.find(query).limit(ITEMS_PER_PAGE).skip(skip)
 			const pageCount = Math.ceil(count / ITEMS_PER_PAGE)
-			res.json({
-				films: films,
-				pagination: {
-					count,
-					pageCount,
-				},
+
+			if (films.length === 0) {
+				res.json({
+					films: "",
+					pagination: {
+						count: 0,
+						pageCount: 1,
+					},
+				})
+			} else {
+				res.json({
+					films: films,
+					pagination: {
+						count,
+						pageCount,
+					},
+				})
+			}
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
+	getFilm: async (req, res) => {
+		const { _id } = req.params
+
+		try {
+			const specificFilm = await Films.findById(_id)
+			return res.json({
+				film: specificFilm,
 			})
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
+	addEpisode: async (req, res) => {
+		const { _id } = req.params
+		const { episodeName } = req.body
+		const episodeSlug = toSlug(episodeName)
+		try {
+			await Films.updateOne(
+				{ _id },
+				{
+					$push: {
+						episodes: {
+							episodeName,
+							slugEpisode: episodeSlug,
+						},
+					},
+				}
+			)
+			res.json({ msg: "Success add episode" })
 		} catch (err) {
 			return res.status(500).json({ msg: err.message })
 		}

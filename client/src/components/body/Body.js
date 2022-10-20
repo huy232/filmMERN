@@ -12,6 +12,7 @@ import EditUser from "./profile/EditUser"
 import Subscription from "./subscription/Subscription"
 import FilmUpload from "./filmupload/FilmUpload"
 import FilmManagement from "./filmmanagement/FilmManagement"
+import FilmAddEpisode from "./filmmanagement/FilmAddEpisode"
 
 function Body() {
 	const auth = useSelector((state) => state.auth)
@@ -70,6 +71,11 @@ function Body() {
 				<Route
 					path="/film-management"
 					element={isEmployee || isAdmin ? <FilmManagement /> : <NotFound />}
+					exact
+				/>
+				<Route
+					path="/add-episode/:_id"
+					element={isEmployee || isAdmin ? <FilmAddEpisode /> : <NotFound />}
 					exact
 				/>
 			</Routes>

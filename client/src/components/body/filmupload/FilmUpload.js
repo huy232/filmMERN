@@ -213,12 +213,6 @@ function FilmUpload() {
 
 	return (
 		<>
-			{console.log({
-				selectedImage: selectedImage,
-				preview: preview,
-				selectedBanner: selectedBanner,
-				previewBanner: previewBanner,
-			})}
 			{err && showErrMsg(err)}
 			{success && showSuccessMsg(success)}
 			<div className="film-upload">
@@ -235,8 +229,7 @@ function FilmUpload() {
 				</div>
 				<div className="form-group-upload">
 					<label htmlFor="filmDescription">Film Description</label>
-					<input
-						type="text"
+					<textarea
 						name="filmDescription"
 						id="filmDescription"
 						placeholder="Enter film description"
@@ -314,6 +307,7 @@ function FilmUpload() {
 				</div>
 
 				<div className="film-upload-image">
+					<div className="film-upload-image__title">Image for film</div>
 					<div className="film-upload__holder-image">
 						<input
 							type="file"
@@ -325,6 +319,7 @@ function FilmUpload() {
 					</div>
 				</div>
 				<div className="film-upload-banner">
+					<div className="film-upload-banner__title">Image banner</div>
 					<div className="film-upload__holder-banner">
 						<input
 							type="file"

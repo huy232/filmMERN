@@ -34,10 +34,15 @@ const filmSchema = new mongoose.Schema(
 			type: String,
 			require: [true, "Please provide the film with slug"],
 		},
-		episode: [{ episodeName: { type: String }, _id: false }],
-		// filmComment: [
-		// 	{ userId: { type: String }, userComment: { type: String }, _id: false },
-		// ],
+		episodes: [
+			{
+				episodeName: { type: String },
+				slugEpisode: { type: String },
+			},
+		],
+		year: {
+			type: Number,
+		},
 	},
 	{ timestamps: true }
 )
