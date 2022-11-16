@@ -1,22 +1,41 @@
 header {
 	width: 100%;
-	min-height: 100px;
-	background: #282c34;
+	height: 70px;
+	background: #acf39d;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+		rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+		rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+		rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+		rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
 header a {
-	color: white;
+	color: rgb(7, 27, 27);
 	text-transform: uppercase;
 	letter-spacing: 1.5px;
+	padding: 4px;
+	transition: 0.2s;
+	border-radius: 10px;
+}
+
+header a:hover {
+	opacity: 0.8;
+	background: #e85f5c;
+}
+
+header ul {
+	display: flex;
+	align-items: center;
 }
 
 header ul li {
 	display: inline-block;
 	padding: 10px 20px;
 	opacity: 0.7;
+	transition: 0.3s;
 }
 
 header ul li:hover {
@@ -26,7 +45,6 @@ header ul li:hover {
 header ul li img {
 	width: 30px;
 	height: 30px;
-	transform: translateY(10px);
 	border-radius: 50%;
 }
 
@@ -37,27 +55,12 @@ header ul {
 }
 
 .drop-nav {
-	position: relative;
-	padding: 10px 0;
+	display: flex;
+	align-items: center;
 }
 
-.drop-nav a {
-	text-transform: capitalize;
-	overflow: hidden;
-}
-
-.drop-nav .dropdown {
-	position: absolute;
-	background: #282c34;
-	top: 50px;
-	flex-direction: column;
-	display: none;
-}
-
-.drop-nav .dropdown > li {
-	padding: 10px 0;
-}
-
-.drop-nav:hover .dropdown {
+.drop-nav > a {
+	margin: 0 14px;
+	padding: 10px;
 	display: flex;
 }

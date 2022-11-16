@@ -7,14 +7,17 @@ const filmSchema = new mongoose.Schema(
 			required: [true, "Require film name"],
 			trim: true,
 		},
+
 		filmDescription: {
 			type: String,
 		},
+
 		type: {
 			type: String,
 			required: [true, "Specific movie or series"],
 			trim: true,
 		},
+
 		genres: [
 			{
 				genre: {
@@ -24,22 +27,31 @@ const filmSchema = new mongoose.Schema(
 				_id: false,
 			},
 		],
+
 		filmBanner: {
 			type: String,
 		},
+
 		filmImage: {
 			type: String,
 		},
+
 		filmSlug: {
 			type: String,
 			require: [true, "Please provide the film with slug"],
 		},
+
 		episodes: [
 			{
 				episodeName: { type: String },
 				slugEpisode: { type: String },
+				episodeUrl: { type: String },
 			},
 		],
+
+		trailerName: { type: String },
+		trailerUrl: { type: String },
+
 		year: {
 			type: Number,
 		},

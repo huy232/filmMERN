@@ -1,0 +1,62 @@
+.video-section {
+	margin: 20px auto;
+	width: 100%;
+	text-align: center;
+}
+
+.video-section video {
+	width: 80vw;
+}
+
+.currently-watch {
+	display: flex;
+	flex-direction: column;
+}
+
+.currently-watch h2,
+.currently-watch h3 {
+	display: inline-block;
+	margin: 10px 20px;
+}
+
+.currently-watch h2 {
+	font-weight: bold;
+	background: rgba(124, 242, 333, 0.8);
+}
+
+.current-watch-film-name h2 {
+	padding: 10px;
+	border-radius: 6px;
+}
+
+.current-watch-episode-name h3 {
+	background: rgba(146, 45, 45, 0.8);
+	border-radius: 4px;
+	padding: 6px;
+}
+
+.episode-holder {
+	display: flex;
+	height: 300px;
+	overflow-y: scroll;
+	flex-wrap: wrap;
+}
+
+.episode-holder .watch-episode {
+	margin: 10px;
+}
+
+.episode-holder .watch-episode button {
+	border-radius: 6px;
+	padding: 10px;
+	transition: 0.2s;
+}
+
+.episode-holder .watch-episode button:hover {
+	opacity: 0.7;
+}
+
+.watch-episode.active button {
+	background: rgb(172, 67, 67);
+	color: rgb(37, 35, 35);
+}

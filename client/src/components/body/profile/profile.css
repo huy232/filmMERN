@@ -1,14 +1,16 @@
 .profile-page {
+	margin-top: 10px;
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 }
 
 .profile-page .col-left {
-	max-width: 400px;
-	min-width: 300px;
+	width: 300px;
 	padding: 0 10px;
 	margin: auto;
+	background: rgba(227, 181, 164, 0.6);
+	border-radius: 20px;
 }
 
 .profile-page .col-left .avatar {
@@ -65,7 +67,7 @@
 	text-align: center;
 	font-size: 1.7rem;
 	text-transform: uppercase;
-	color: #333;
+	color: #fff;
 	margin: 10px 0;
 }
 
@@ -80,25 +82,34 @@
 	margin: 5px 0;
 	border: none;
 	outline: none;
-	background: #fee;
-	padding: 0 5px;
+	border-radius: 6px;
 }
 
-.profile-page .col-left button {
-	background: #333;
-	color: white;
-	padding: 10px 25px;
-	text-transform: uppercase;
-	letter-spacing: 1.4px;
-	margin: 10px 0;
+.update-button {
+	text-align: center;
+	margin: 16px 0;
+}
+
+.update-button button {
+	width: 50%;
+	border-radius: 6px;
+	padding: 8px;
+	transition: 0.2s;
+	background: #a05344;
+}
+
+.update-button button:hover {
+	opacity: 0.7;
 }
 
 /* COLUMN RIGHT */
 
 .profile-page .col-right {
+	border-radius: 10px;
+	background: #a27b5c;
 	padding: 0 10px;
 	flex: 1;
-	min-width: 300px;
+	margin: 0 20px;
 }
 
 .profile-page .col-right h2 {
@@ -121,8 +132,12 @@
 	padding: 8px;
 }
 
-.customers tr:nth-child(even) {
+/* .customers tr:nth-child(even) {
 	background: #f2f2f2;
+} */
+
+.customers tr {
+	background: rgba(242, 242, 242, 0.7);
 }
 
 .customers th {
@@ -152,12 +167,147 @@
 .table-user__role {
 	text-align: center;
 }
-.table-user__action {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
 
 .fa-user-slash {
 	cursor: pointer;
+}
+
+.table-user__action .action {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+/* EDIT USER FORM */
+
+.edit-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 300px;
+	margin: 0 auto;
+	background: #773344;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.form-group.radio {
+	margin: 10px 0;
+}
+
+.name-disable,
+.email-disable {
+	width: 98%;
+}
+
+.user-select,
+.admin-select,
+.employee-select {
+	padding: 10px;
+	display: flex;
+	margin: 0 25%;
+	transition: 0.2s;
+	border-radius: 10px;
+}
+
+.user-select.active,
+.admin-select.active,
+.employee-select.active {
+	background: #9cfffa;
+	transition: 0.2s;
+}
+
+.form-group.radio > div > input {
+	cursor: pointer;
+}
+
+.form-group.radio > div > label {
+	cursor: pointer;
+	width: 100%;
+}
+
+.update-edit-user {
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+.update-edit-user-btn {
+	padding: 8px;
+	border-radius: 4px;
+	background: #acf39d;
+	transition: 0.2s;
+}
+
+.update-edit-user-btn:hover {
+	opacity: 0.6;
+}
+
+/* USER, BOOKMARK BUTTON */
+.bookmark-btn,
+.user-button {
+	padding: 10px;
+	margin: 20px;
+	transition: 0.2s;
+	background: #333;
+	color: #fff;
+}
+
+.bookmark-btn:hover,
+.user-button:hover {
+	background: #ddd;
+	color: #333;
+}
+
+.bookmark-holder {
+	width: 180px;
+}
+
+.bookmark-title h4 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* number of lines to show */
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.bookmark-holder a button {
+	padding: 4px;
+	width: 100%;
+	background: #773344;
+	color: #fff;
+	transition: 0.2s;
+}
+
+.bookmark-holder a button:hover {
+	background: #fff;
+	color: #333;
+}
+
+.film-bookmark-delete-button {
+	border: none;
+	padding: 4px;
+	transition: 0.2s;
+}
+
+.film-bookmark-delete-button:hover {
+	opacity: 0.7;
+}
+
+.film-type {
+	display: inline-block;
+	width: 60px;
+	background: rgb(187 187 187 / 50%);
+	border-radius: 6px;
+	padding: 4px;
+	margin-bottom: 4px;
+	margin-top: auto;
+}
+
+.react-loading-spinner {
+	margin: 0 auto;
 }

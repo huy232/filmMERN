@@ -5,6 +5,8 @@ const authAdmin = require("../middleware/authAdmin")
 
 router.get("/prices", subsController.stripePrices)
 
+router.post("/user-payment", subsController.stripeUserPayment)
+
 router.post("/session", subsController.stripeSession)
 
 module.exports = router

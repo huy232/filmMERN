@@ -1,10 +1,8 @@
 import React, { useState } from "react"
 import axios from "axios"
 import { isEmail } from "../../utils/validation/Validation"
-import {
-	showErrMsg,
-	showSuccessMsg,
-} from "../../utils/notification/Notifications"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const initialState = {
 	email: "",
@@ -15,7 +13,7 @@ const initialState = {
 function ForgotPassword() {
 	const [data, setData] = useState(initialState)
 
-	const { email, err, success } = data
+	const { email } = data
 
 	const handleChangeInput = (e) => {
 		const { name, value } = e.target
@@ -28,21 +26,33 @@ function ForgotPassword() {
 		}
 		try {
 			const res = await axios.post("/user/forgot", { email })
-			return setData({ ...data, err: "", success: res.data.msg })
+			showSuccessToastMessage(res.data.msg)
+			return setData({ ...data })
 		} catch (err) {
-			err.response.data.msg &&
-				setData({ ...data, err: err.response.data.msg, success: "" })
+			if (err.response.data.msg) {
+				showToastMessage(err.response.data.msg)
+				return setData({ ...data })
+			}
 		}
+	}
+
+	const showToastMessage = (msg) => {
+		toast.error(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
+	}
+
+	const showSuccessToastMessage = (msg) => {
+		toast.success(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
 	}
 
 	return (
 		<div className="fg-password">
 			<h2>Forgot your password?</h2>
-
+			<ToastContainer />
 			<div className="row">
-				{err && showErrMsg(err)}
-				{success && showSuccessMsg(success)}
-
 				<label htmlFor="email">Enter your email</label>
 				<input
 					type="email"
@@ -51,7 +61,7 @@ function ForgotPassword() {
 					value={email}
 					onChange={handleChangeInput}
 				/>
-				<button onClick={handleForgotPassword}>Verify your email</button>
+				<button onClick={handleForgotPassword}>Confirm</button>
 			</div>
 		</div>
 	)

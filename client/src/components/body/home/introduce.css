@@ -1,0 +1,58 @@
+.series-introduce,
+.movie-introduce {
+	position: relative;
+	width: 100%;
+	height: 400px;
+}
+
+.series-introduce img,
+.movie-introduce img {
+	width: 100%;
+	height: 400px;
+	-o-object-fit: cover;
+	object-fit: cover;
+}
+
+.overlay {
+	position: absolute;
+	background: rgba(8, 10, 10, 0.4);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 400px;
+	display: block;
+}
+
+.overlay h2,
+.overlay p {
+	color: white;
+}
+
+.series-introduce .overlay {
+	text-align: left;
+}
+
+.movie-introduce .overlay {
+	text-align: right;
+}
+
+.series-introduce-content,
+.movie-introduce-content {
+	border-radius: 10px;
+	margin-top: 5%;
+	background: rgba(15, 12, 12, 0.5);
+	display: inline-block;
+	padding: 20px;
+}
+
+.series-introduce-content {
+	box-shadow: rgba(69, 240, 46, 0.4) -5px 5px,
+		rgba(46, 240, 127, 0.3) -10px 10px, rgba(46, 240, 95, 0.2) -15px 15px,
+		rgba(46, 240, 149, 0.1) -20px 20px, rgba(46, 240, 149, 0.05) -25px 25px;
+}
+
+.movie-introduce-content {
+	box-shadow: rgba(198, 240, 46, 0.4) 5px 5px, rgba(149, 240, 46, 0.3) 10px 10px,
+		rgba(188, 240, 46, 0.2) 15px 15px, rgba(172, 240, 46, 0.1) 20px 20px,
+		rgba(240, 227, 46, 0.05) 25px 25px;
+}

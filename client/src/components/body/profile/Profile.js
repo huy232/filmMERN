@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
-import { Link } from "react-router-dom"
 import { isLength, isMatch } from "../../utils/validation/Validation"
-import {
-	showErrMsg,
-	showSuccessMsg,
-} from "../../utils/notification/Notifications"
 import {
 	fetchAllUsers,
 	dispatchGetAllUsers,
 } from "../../../redux/actions/usersAction"
+import AdminTable from "./AdminTable"
+import Bookmark from "./Bookmark"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const initialState = {
 	name: "",
 	password: "",
 	cf_password: "",
-	err: "",
-	success: "",
 }
 
 function Profile() {
@@ -30,10 +27,11 @@ function Profile() {
 	const [data, setData] = useState(initialState)
 	const [avatar, setAvatar] = useState(false)
 	const [loading, setLoading] = useState(false)
-	const [callback, setCallback] = useState(false)
+	const [toggle, setToggle] = useState("film")
 
-	const { name, password, cf_password, err, success } = data
+	const { name, password, cf_password } = data
 	const dispatch = useDispatch()
+
 	useEffect(() => {
 		const fetchUsers = async () => {
 			return fetchAllUsers(token).then((res) => {
@@ -43,11 +41,23 @@ function Profile() {
 		if (isAdmin) {
 			fetchUsers()
 		}
-	}, [dispatch, isAdmin, token, callback])
+	}, [dispatch, isAdmin, token])
+
+	const showToastMessage = (msg) => {
+		toast.error(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
+	}
+
+	const showSuccessToastMessage = (msg) => {
+		toast.success(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
+	}
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
-		setData({ ...data, [name]: value, err: "", success: "" })
+		setData({ ...data, [name]: value })
 	}
 
 	const updateAvatar = async (e) => {
@@ -55,19 +65,20 @@ function Profile() {
 		try {
 			const file = e.target.files[0]
 
-			if (!file)
-				return setData({ ...data, err: "No file were uploaded", success: "" })
-			if (file.size > 1024 * 1024)
+			if (!file) {
+				showToastMessage("No file were upload")
+				return setData({ ...data })
+			}
+			if (file.size > 1024 * 1024) {
+				showToastMessage("Size too large.")
 				return setData({
 					...data,
-					err: "Size too large, limit < 1MB",
-					success: "",
 				})
+			}
 			if (file.type !== "image/jpeg" && file.type !== "image/png") {
+				showToastMessage("File format is incorrect")
 				return setData({
 					...data,
-					err: "File format is incorrect",
-					success: "",
 				})
 			}
 
@@ -82,10 +93,12 @@ function Profile() {
 					Authorization: token,
 				},
 			})
+			showSuccessToastMessage("Success update avatar")
 			setLoading(false)
 			setAvatar(res.data.url)
 		} catch (err) {
-			setData({ ...data, err: err.response.data.msg, success: "" })
+			showToastMessage(err.response.data.msg)
+			return setData({ ...data })
 		}
 	}
 
@@ -134,14 +147,20 @@ function Profile() {
 		if (password) updatePassword()
 	}
 
+	const handleSection = (section) => {
+		setToggle(section)
+	}
+
 	return (
 		<>
-			{err && showErrMsg(err)}
-			{success && showSuccessMsg(success)}
-			{loading && <h3>Loading...</h3>}
+			<ToastContainer />
 			<div className="profile-page">
 				<div className="col-left">
-					<h2>{isAdmin ? "Admin profile" : "User profile"}</h2>
+					<h2>
+						{isAdmin && "Admin"}
+						{!isAdmin && !isEmployee && "User"}
+						{isEmployee && "Employee"}
+					</h2>
 
 					<div className="avatar">
 						<img src={avatar ? avatar : user.avatar} alt="" />
@@ -210,59 +229,33 @@ function Profile() {
 						</em>
 					</div>
 
-					<button disabled={loading} onClick={handleUpdate}>
-						Update
-					</button>
+					<div className="update-button">
+						<button disabled={loading} onClick={handleUpdate}>
+							Update
+						</button>
+					</div>
 				</div>
 				<div className="col-right">
-					<h2>{isAdmin ? "Users" : "Orders"}</h2>
+					{isAdmin && (
+						<button
+							onClick={() => handleSection("admin")}
+							className="user-button"
+						>
+							USER
+						</button>
+					)}
 
-					<div style={{ overflowX: "auto" }}>
-						<table className="customers">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Name</th>
-									<th>Email</th>
-									<th>Role</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{users.length !== 0 &&
-									users.payload.map((user) => (
-										<tr key={user._id}>
-											<td className="table-user__id">{user._id}</td>
-											<td className="table-user__name">{user.name}</td>
-											<td className="table-user__email">{user.email}</td>
-											<td className="table-user__role">
-												<div className="user-type">
-													{user.role === 1 ? (
-														<i className="fas fa-crown" title={"Admin"}></i>
-													) : user.role === 2 ? (
-														<i
-															className="fas fa-user-tie"
-															title={"Employee"}
-														></i>
-													) : (
-														<i
-															className="fas fa-user-friends"
-															title={"User"}
-														></i>
-													)}
-												</div>
-											</td>
-											<td className="table-user__action">
-												<Link to={`/edit-user/${user._id}`}>
-													<i className="fas fa-edit" title={"Edit"}></i>
-												</Link>
-												<i className="fas fa-user-slash" title={"Remove"}></i>
-											</td>
-										</tr>
-									))}
-							</tbody>
-						</table>
-					</div>
+					<button
+						onClick={() => handleSection("user")}
+						className="bookmark-btn"
+					>
+						BOOKMARK
+					</button>
+					{toggle === "admin" ? (
+						<AdminTable users={users} token={token} auth={auth} />
+					) : (
+						<Bookmark user={user} />
+					)}
 				</div>
 			</div>
 		</>

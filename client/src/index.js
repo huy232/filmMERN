@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import "./index.css"
 import App from "./App"
-import * as serviceWorker from "./serviceWorker"
+// import * as serviceWorker from "./serviceWorker"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import DataProvider from "./redux/store"
 

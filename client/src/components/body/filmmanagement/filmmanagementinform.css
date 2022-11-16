@@ -1,0 +1,154 @@
+.film-management-information {
+	color: #fff;
+}
+
+.film-management-information h4 {
+	margin: 0;
+}
+
+.film-name-wrapper,
+.film-description-wrapper,
+.film-category-checkbox-wrapper,
+.image-holder {
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 20px 10px;
+}
+
+.three-wrapper {
+	display: flex;
+	flex-direction: row;
+}
+
+.image-holder {
+	flex-direction: row;
+	width: 90%;
+	justify-content: space-evenly;
+}
+
+.film-name-wrapper {
+	width: 30%;
+	background: rgb(134, 76, 76);
+}
+
+.film-name-wrapper input {
+	width: 90%;
+}
+
+.film-name-text-box {
+	width: 90%;
+}
+
+.film-description-wrapper {
+	width: 60%;
+	background: rgb(175, 134, 79);
+}
+
+.film-description-wrapper textarea,
+.film-description-wrapper div {
+	border-radius: 10px;
+	width: 90%;
+}
+
+.film-category-checkbox-wrapper {
+	background: rgba(96, 151, 63, 0.8);
+	width: 10%;
+}
+
+.film-category-checkbox-wrapper .checkbox-category div {
+	display: inline-block;
+	border-radius: 10px;
+	background: rgba(17, 13, 13, 0.8);
+	margin: 4px;
+	padding: 6px;
+}
+
+.image-wrapper {
+	padding: 20px;
+	border-radius: 10px;
+	text-align: center;
+	background: rgb(76, 42, 155);
+}
+
+.banner-wrapper {
+	padding: 20px;
+	border-radius: 10px;
+	text-align: center;
+	background: rgba(48, 154, 161, 0.8);
+}
+
+.film-image,
+.film-banner {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 100%;
+}
+
+.film-image img {
+	border-radius: 10px;
+	width: 180px;
+	-o-object-fit: cover;
+	object-fit: cover;
+}
+
+.film-banner img {
+	border-radius: 10px;
+	-o-object-fit: cover;
+	object-fit: cover;
+	width: 600px;
+	height: 300px;
+}
+
+.image-holder {
+	padding: 0;
+}
+
+.update-film-button-management {
+	margin: 20px;
+	text-align: center;
+}
+
+.update-film-button-management button {
+	border-radius: 10px;
+	padding: 20px;
+	transition: 0.2s;
+}
+
+.update-film-button-management button:hover {
+	opacity: 0.7;
+}
+
+.episode-holder {
+	display: flex;
+	flex-direction: row;
+}
+
+.episode-wrapper {
+	margin: 20px;
+	padding: 10px;
+	background: rgb(96 75 23 / 80%);
+	display: inline-block;
+	border-radius: 10px;
+	width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+	height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
+}
+
+.episode-view-wrapper button,
+.episode-edit-wrapper button {
+	border-radius: 6px;
+	margin: 4px 10px;
+	padding: 6px;
+	transition: 0.2s;
+}
+.episode-view-wrapper button:hover,
+.episode-edit-wrapper button:hover {
+	opacity: 0.7;
+}

@@ -1,7 +1,7 @@
 .login_page {
 	max-width: 500px;
 	margin: auto;
-	color: #444;
+	color: #fff;
 	padding: 0 15px;
 }
 
@@ -47,17 +47,17 @@
 }
 
 .login_page a {
-	color: #111;
+	color: rgb(235, 232, 107);
 	font-weight: 600;
 }
 
 /* FORGOT PASSWORD */
 
 .fg-password {
-	color: #555;
+	color: rgb(177, 177, 177);
 	text-transform: uppercase;
 	text-align: center;
-	font-size: 2rem;
+	font-size: 1rem;
 	margin: 50px 0;
 	letter-spacing: 1.3px;
 }

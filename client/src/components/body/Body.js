@@ -13,13 +13,18 @@ import Subscription from "./subscription/Subscription"
 import FilmUpload from "./filmupload/FilmUpload"
 import FilmManagement from "./filmmanagement/FilmManagement"
 import FilmAddEpisode from "./filmmanagement/FilmAddEpisode"
+import FilmManagementInform from "./filmmanagement/FilmManagementInform"
+import Home from "./home/Home"
+import FilmInfo from "./filminfo/FilmInfo"
+import FilmAddTrailer from "./filmmanagement/FilmAddTrailer"
+import FilmWatch from "./filmwatch/FilmWatch"
 
 function Body() {
 	const auth = useSelector((state) => state.auth)
 	const { isLogged, isAdmin, isEmployee } = auth
 
 	return (
-		<section>
+		<section style={{ minHeight: "90vh" }}>
 			<Routes>
 				<Route
 					path="/login"
@@ -76,6 +81,30 @@ function Body() {
 				<Route
 					path="/add-episode/:_id"
 					element={isEmployee || isAdmin ? <FilmAddEpisode /> : <NotFound />}
+					exact
+				/>
+				<Route
+					path="/add-trailer/:_id"
+					element={isEmployee || isAdmin ? <FilmAddTrailer /> : <NotFound />}
+					exact
+				/>
+				<Route
+					path="/film-management/:_id"
+					element={
+						isEmployee || isAdmin ? <FilmManagementInform /> : <NotFound />
+					}
+					exact
+				/>
+				<Route path="/" element={<Home />} exact />
+				<Route
+					path="/film-info/:filmSlug"
+					element={isLogged ? <FilmInfo /> : <NotFound />}
+					exact
+				/>
+
+				<Route
+					path="/film-watch/:filmSlug"
+					element={isLogged ? <FilmWatch /> : <NotFound />}
 					exact
 				/>
 			</Routes>

@@ -21,20 +21,12 @@ function Header() {
 	const userLink = () => {
 		return (
 			<li className="drop-nav">
-				<Link to="#" className="avatar">
-					<img src={user.avatar} alt="" /> {user.name}{" "}
-					<i className="far fa-caret-square-down"></i>
+				<Link to="/profile" className="avatar">
+					<img src={user.avatar} alt="" />
 				</Link>
-				<ul className="dropdown">
-					<li>
-						<Link to="/profile">Profile</Link>
-					</li>
-					<li>
-						<Link to="/" onClick={() => handleLogout()}>
-							Logout
-						</Link>
-					</li>
-				</ul>
+				<Link to="/" onClick={() => handleLogout()}>
+					<i className="fas fa-sign-out-alt"></i>
+				</Link>
 			</li>
 		)
 	}
@@ -51,12 +43,12 @@ function Header() {
 					<>
 						<li>
 							<Link to="/film-management">
-								<i className="fas fa-tasks" /> Film Management
+								<i className="fas fa-tasks" /> Management
 							</Link>
 						</li>
 						<li>
 							<Link to="/film-upload">
-								<i className="fas fa-film" /> Film Upload
+								<i className="fas fa-film" /> Upload
 							</Link>
 						</li>
 					</>

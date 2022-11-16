@@ -21,6 +21,12 @@ router.patch("/update", auth, userController.updateUser)
 router.patch("/update-role/:id", auth, authAdmin, userController.updateUserRole)
 router.delete("/delete/:id", auth, authAdmin, userController.deleteUser)
 
+// PRODUCT
+
+router.patch("/film-history", userController.updateHistory)
+router.patch("/film-history-delete", userController.deleteHistory)
+router.patch("/user-watch-history", userController.watchHistory)
+
 // SOCIAL LOGIN
 
 router.post("/google-login", userController.googleLogin)

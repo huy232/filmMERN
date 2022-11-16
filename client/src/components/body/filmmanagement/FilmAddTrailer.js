@@ -7,12 +7,12 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import "./addfilm.css"
 
-function FilmAddEpisode() {
+function FilmAddTrailer() {
 	const { _id } = useParams()
 
 	const videoRef = useRef()
 	const [data, setData] = useState()
-	const [episodeName, setEpisodeName] = useState("")
+	const [trailerName, setTrailerName] = useState("")
 	const [selectVideo, setSelectVideo] = useState()
 	const [preview, setPreview] = useState()
 	const [onWait, setOnWait] = useState(false)
@@ -35,6 +35,11 @@ function FilmAddEpisode() {
 		} else if (!selectVideo) setPreview(undefined)
 	}, [_id, selectVideo])
 
+	const handleTrailerName = (e) => {
+		const { value } = e.target
+		setTrailerName(value)
+	}
+
 	const showToastMessage = (msg) => {
 		toast.error(msg, {
 			position: toast.POSITION.TOP_RIGHT,
@@ -45,11 +50,6 @@ function FilmAddEpisode() {
 		toast.success(msg, {
 			position: toast.POSITION.TOP_RIGHT,
 		})
-	}
-
-	const handleEpisodeName = (e) => {
-		const { value } = e.target
-		setEpisodeName(value)
 	}
 
 	const onSelectVideo = (e) => {
@@ -69,30 +69,31 @@ function FilmAddEpisode() {
 		try {
 			setOnWait(true)
 			let formData = new FormData()
-			formData.append("file", selectVideo, episodeName)
+			formData.append("file", selectVideo, trailerName)
+
 			const { data } = await supabase.storage
 				.from("film")
-				.upload(`${episodeName}.mp4`, formData)
+				.upload(`${trailerName}.mp4`, formData)
 
-			const { data: secondData } = await supabase.storage
+			const { data: secondData } = supabase.storage
 				.from("film")
 				.getPublicUrl(`${data.path}`)
-			const episodeData = {
-				episodeName,
-				episodeUrl: secondData.publicUrl,
+
+			const trailerData = {
+				trailerName,
+				trailerUrl: secondData.publicUrl,
 			}
 
-			await axios.post(`/film/add-episode/${_id}`, episodeData)
-			// REVOKE AFTER DONE
+			await axios.patch(`/film/add-trailer/${_id}`, trailerData)
+			showSuccessToastMessage("Success upload trailer")
+
 			URL.revokeObjectURL(preview)
 			setSelectVideo()
-			showSuccessToastMessage("Success upload episode")
 			setOnWait(false)
 		} catch (err) {
 			showToastMessage("Something went wrong")
 		}
 	}
-
 	const handleGoBack = () => {
 		navigate("/film-management")
 	}
@@ -105,19 +106,19 @@ function FilmAddEpisode() {
 			<ToastContainer />
 			{typeof data !== "undefined" && (
 				<div className="add-episode-section">
+					<div className="film-name-for-upload">
+						<h2>{data.filmName}</h2>
+						<h4>{data.type.toUpperCase()}</h4>
+					</div>
 					<div className="episode-name-holder">
-						<div className="film-name-for-upload">
-							<h2>{data.filmName}</h2>
-							<h4>{data.type.toUpperCase()}</h4>
-						</div>
-						<label htmlFor="episode-name">Episode name: </label>
+						<label htmlFor="episode-name">Trailer name: </label>
 						<input
 							type="text"
 							name="episodeName"
 							id="episodeName"
 							placeholder="Enter film name"
-							value={episodeName}
-							onChange={handleEpisodeName}
+							value={trailerName}
+							onChange={handleTrailerName}
 						/>
 					</div>
 					<div className="episode-video-upload">
@@ -146,13 +147,13 @@ function FilmAddEpisode() {
 						</div>
 						<input
 							type="file"
-							name="film-file"
-							id="film-file"
-							className="film-input-file"
+							name="trailer-file"
+							id="trailer-file"
+							className="trailer-input-file"
 							onChange={onSelectVideo}
 						/>
-						<label htmlFor="film-file" className="film-input-file-label">
-							<i className="fas fa-photo-video"></i> Select Video..
+						<label htmlFor="trailer-file" className="trailer-input-file-label">
+							<i className="fas fa-photo-video"></i> Select Trailer..
 						</label>
 					</div>
 					<div className="submit-episode">
@@ -166,4 +167,4 @@ function FilmAddEpisode() {
 	)
 }
 
-export default FilmAddEpisode
+export default FilmAddTrailer

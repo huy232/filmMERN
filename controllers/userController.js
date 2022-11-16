@@ -40,6 +40,7 @@ const userController = {
 			const activation_token = createActivationToken(newUser)
 
 			const url = `${CLIENT_URL}/user/activate/${activation_token}`
+
 			sendMail(email, url, "Verify your email address")
 
 			res.json({
@@ -212,8 +213,8 @@ const userController = {
 	},
 	deleteUser: async (req, res) => {
 		try {
-			const { role } = req.body
 			await Users.findByIdAndDelete(req.params.id)
+
 			res.json({ msg: "Delete success" })
 		} catch (err) {
 			return res.status(500).json({ msg: err.message })
@@ -267,6 +268,74 @@ const userController = {
 				})
 				res.json({ msg: "Login Success" })
 			}
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
+	updateHistory: async (req, res) => {
+		const { _id, filmId } = req.body
+
+		try {
+			await Users.updateOne(
+				{ _id },
+				{
+					$push: {
+						bookmark: {
+							filmId,
+						},
+					},
+				}
+			)
+			res.json({ msg: "Success add trailer" })
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
+	deleteHistory: async (req, res) => {
+		const { _id, filmId } = req.body
+		try {
+			await Users.updateOne(
+				{
+					_id,
+				},
+				{
+					$pull: { bookmark: { filmId } },
+				},
+				{ new: true }
+			)
+			res.json({ msg: "Success delete bookmark" })
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
+	watchHistory: async (req, res) => {
+		const { _id, filmId, currentTime, episodeId } = req.body
+		try {
+			const response = await Users.updateOne(
+				{ _id, "history.filmId": filmId },
+				{
+					$set: {
+						"history.$.currentTime": currentTime,
+						"history.$.episodeId": episodeId,
+					},
+				}
+			)
+
+			if (response.matchedCount === 0) {
+				await Users.updateOne(
+					{ _id },
+					{
+						$push: {
+							history: {
+								filmId,
+								currentTime,
+							},
+						},
+					}
+				)
+			}
+
+			res.json({ msg: "Update history" })
 		} catch (err) {
 			return res.status(500).json({ msg: err.message })
 		}

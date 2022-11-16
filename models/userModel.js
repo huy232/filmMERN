@@ -30,6 +30,15 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		history: [
+			{
+				filmId: String,
+				currentTime: Number,
+				episodeId: String,
+				_id: false,
+			},
+		],
+		bookmark: [{ filmId: String, _id: false }],
 	},
 	{ timestamps: true }
 )

@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import axios from "axios"
 import { useParams } from "react-router-dom"
-import {
-	showErrMsg,
-	showSuccessMsg,
-} from "../../utils/notification/Notifications"
 import { isLength, isMatch } from "../../utils/validation/Validation"
+
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const initialState = {
 	password: "",
@@ -18,7 +17,7 @@ function ResetPassword() {
 	const { token } = useParams()
 	const [data, setData] = useState(initialState)
 
-	const { password, cf_password, err, success } = data
+	const { password, cf_password } = data
 
 	const handleChangeInput = (e) => {
 		const { name, value } = e.target
@@ -27,14 +26,14 @@ function ResetPassword() {
 
 	const handleResetPassword = async () => {
 		if (isLength(password)) {
+			showToastMessage("Password must be at least 6 characters")
 			return setData({
 				...data,
-				err: "Password must be at least 6 characters",
-				success: "",
 			})
 		}
 		if (!isMatch(password, cf_password)) {
-			return setData({ ...data, err: "Password did not match", success: "" })
+			showToastMessage("Password did not match")
+			return setData({ ...data })
 		}
 
 		try {
@@ -44,21 +43,35 @@ function ResetPassword() {
 				{ headers: { Authorization: token } }
 			)
 
-			return setData({ ...data, err: "", success: res.data.msg })
+			showSuccessToastMessage(res.data.msg)
+
+			return setData({ ...data })
 		} catch (err) {
-			err.response.data.msg &&
-				setData({ ...data, err: err.response.data.msg, success: "" })
+			if (err.response.data.msg) {
+				showToastMessage(err.response.data.msg)
+				return { ...data }
+			}
 		}
+	}
+
+	const showToastMessage = (msg) => {
+		toast.error(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
+	}
+
+	const showSuccessToastMessage = (msg) => {
+		toast.success(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
 	}
 
 	return (
 		<div className="fg-password">
+			<ToastContainer />
 			<h2>Reset your password</h2>
 
 			<div className="row">
-				{err && showErrMsg(err)}
-				{success && showSuccessMsg(success)}
-
 				<label htmlFor="password">Enter your new password</label>
 				<input
 					type="password"

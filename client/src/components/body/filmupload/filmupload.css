@@ -1,0 +1,156 @@
+.film-upload {
+	margin-top: 20px;
+	color: white;
+}
+
+.film-upload-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.film-upload-wrapper > div {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-group__film-name {
+	border-radius: 8px;
+	padding: 20px;
+	background: rgba(105, 51, 51, 0.6);
+	width: 300px;
+}
+
+.form-group__film-description {
+	margin-top: 20px;
+	width: 600px;
+	border-radius: 8px;
+	padding: 20px;
+	background: rgba(105, 51, 51, 0.6);
+	height: 200px;
+}
+
+#filmDescription {
+	height: 100%;
+}
+
+.form-group__film-description textarea {
+	resize: none;
+}
+
+.form-group__type {
+	width: 300px;
+	margin-top: 20px;
+	border-radius: 8px;
+	padding: 20px;
+	background: rgba(105, 51, 51, 0.6);
+}
+
+.radio-movie-type,
+.radio-series-type {
+	transition: 0.2s;
+	display: inline-block;
+
+	width: 90px;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.radio-movie-type.active,
+.radio-series-type.active {
+	background: rgba(69, 138, 228, 0.6);
+}
+
+.form-group__category {
+	margin-top: 20px;
+	border-radius: 8px;
+	padding: 20px;
+	background: rgba(105, 51, 51, 0.6);
+	width: 300px;
+}
+
+.film-upload__image {
+	margin-top: 20px;
+	border-radius: 8px;
+	padding: 20px;
+	background: rgba(105, 51, 51, 0.6);
+	width: 300px;
+	height: 340px;
+}
+
+.film-upload__holder-image,
+.film-upload__holder-banner {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.film-upload__holder-image img {
+	width: 180px;
+	height: 260px;
+	-o-object-fit: cover;
+	object-fit: cover;
+}
+
+.film-upload__holder-banner img {
+	width: 500px;
+	height: 200px;
+	-o-object-fit: cover;
+	object-fit: cover;
+}
+
+.image-input-file,
+.banner-input-file {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.image-input-file + .image-input-file-label,
+.banner-input-file + .banner-input-file-label {
+	font-size: 1rem;
+	font-weight: 700;
+	color: white;
+	background-color: black;
+	display: inline-block;
+	transition: 0.3s;
+	border-radius: 6px;
+}
+
+.image-input-file:focus + .image-input-file-label,
+.image-input-file + .image-input-file-label:hover,
+.banner-input-file:focus + .banner-input-file-label,
+.banner-input-file + .banner-input-file-label:hover {
+	background-color: rgb(58, 97, 31);
+}
+
+.image-input-file + .image-input-file-label,
+.banner-input-file + .banner-input-file-label {
+	cursor: pointer;
+}
+
+.image-input-file-label,
+.banner-input-file-label {
+	margin: 4px auto;
+	padding: 6px;
+}
+
+.film-upload__banner {
+	margin-top: 20px;
+	border-radius: 8px;
+	padding: 20px;
+	background: rgba(105, 51, 51, 0.6);
+	width: 600px;
+	height: 300px;
+}
+
+.upload-submit-button {
+	padding: 10px;
+	margin: 20px 0;
+}

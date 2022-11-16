@@ -2,29 +2,38 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import {
-	showErrMsg,
-	showSuccessMsg,
-} from "../../utils/notification/Notifications"
-import {
 	isEmpty,
 	isEmail,
 	isLength,
 	isMatch,
 } from "../../utils/validation/Validation"
 
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 const initialState = {
 	name: "",
 	email: "",
 	password: "",
 	cf_password: "",
-	err: "",
-	success: "",
 }
 
 function Register() {
 	const [user, setUser] = useState(initialState)
 
-	const { name, email, password, cf_password, err, success } = user
+	const { name, email, password, cf_password } = user
+
+	const showToastMessage = (msg) => {
+		toast.error(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
+	}
+
+	const showSuccessToastMessage = (msg) => {
+		toast.success(msg, {
+			position: toast.POSITION.TOP_RIGHT,
+		})
+	}
 
 	const handleChangeInput = (e) => {
 		const { name, value } = e.target
@@ -34,24 +43,24 @@ function Register() {
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		if (isEmpty(name) || isEmpty(password)) {
+			showToastMessage("Please fill in all the fields")
 			return setUser({
 				...user,
-				err: "Please fill in all the fields",
-				success: "",
 			})
 		}
 		if (!isEmail(email)) {
-			return setUser({ ...user, err: "Invalid email", success: "" })
+			showToastMessage("Invalid email")
+			return setUser({ ...user })
 		}
 		if (isLength(password)) {
+			showToastMessage("Password must be at least 6 characters")
 			return setUser({
 				...user,
-				err: "Password must be at least 6 characters",
-				success: "",
 			})
 		}
 		if (!isMatch(password, cf_password)) {
-			return setUser({ ...user, err: "Password didn't match", success: "" })
+			showToastMessage("Password didn't match")
+			return setUser({ ...user })
 		}
 		try {
 			const res = await axios.post(`/user/register`, {
@@ -59,18 +68,21 @@ function Register() {
 				email,
 				password,
 			})
-			setUser({ ...user, err: "", success: res.data.msg })
+
+			showSuccessToastMessage(res.data.msg)
+			setUser({ ...user })
 		} catch (err) {
-			err.response.data.msg &&
-				setUser({ ...user, err: err.response.data.msg, success: "" })
+			if (err.response.data.msg) {
+				showToastMessage(err.response.data.msg)
+				return setUser({ ...user })
+			}
 		}
 	}
 
 	return (
 		<div className="login_page">
+			<ToastContainer />
 			<h2>Register</h2>
-			{err && showErrMsg(err)}
-			{success && showSuccessMsg(success)}
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="name">Name</label>

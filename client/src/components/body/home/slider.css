@@ -1,0 +1,110 @@
+.subscription-slider {
+	margin-top: 20px;
+	width: 80%;
+}
+
+.overlay-subscription {
+	position: absolute;
+	color: #ad6363;
+	width: 30%;
+	height: 100%;
+}
+
+.overlay-inside {
+	border-radius: 6px;
+	padding: 10px;
+	margin: 30px;
+	background: rgb(0 0 0 / 76%);
+}
+
+.overlay-inside h2 {
+	font-weight: bold;
+}
+
+.subs__describe {
+	color: #fff;
+	border-radius: 10px;
+	background: rgba(20, 24, 14, 1);
+	margin: 10px;
+}
+
+.subs__describe p {
+	padding: 8px;
+}
+
+.subs__bottom {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+	justify-content: center;
+	margin: 20px;
+}
+
+.subs__price,
+.own-plan {
+	margin: 6px;
+}
+
+.subs__price {
+	color: #fff;
+}
+
+.own-plan {
+	cursor: default;
+	border-radius: 6px;
+	padding: 4px;
+	background: #c4bb41;
+	color: #0f0f08;
+}
+
+.subs__buy-now-btn {
+	font-size: 1rem;
+	font-weight: bold;
+	border-radius: 6px;
+	padding: 4px;
+	background: #ad6363;
+	color: #fff;
+	transition: 0.3s;
+}
+
+.subs__buy-now-btn:hover {
+	opacity: 0.7;
+}
+
+.series-subscription,
+.movie-subscription {
+	border-radius: 10px;
+	padding: 20px;
+	background: rgba(224, 210, 81, 0.4);
+	display: flex;
+	background-image: linear-gradient(
+		336deg,
+		transparent 10%,
+		hsla(0, 0%, 10%, 0.6),
+		#130a0a
+	);
+}
+
+.series-subscription iframe,
+.movie-subscription iframe {
+	display: block;
+}
+
+.iframe-holder {
+	margin: 0 auto;
+	border-radius: 14px;
+	overflow: hidden;
+	width: 80%;
+	/* Keep it the right aspect-ratio */
+	aspect-ratio: 16/9;
+	/* No clicking/hover effects */
+	pointer-events: none;
+}
+
+.iframe-holder iframe {
+	/* Extend it beyond the viewport... */
+	width: 300%;
+	height: 100%;
+	/* ...and bring it back again */
+	margin-left: -100%;
+}
