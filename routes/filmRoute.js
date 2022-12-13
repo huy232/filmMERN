@@ -29,4 +29,6 @@ router.get("/comment-section/:filmId", filmController.getCommentSection)
 
 router.patch("/delete-comment/:filmId", filmController.deleteComment)
 
+router.delete("/delete-film/:filmId", filmController.deleteFilm)
+
 module.exports = router

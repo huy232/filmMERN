@@ -157,7 +157,6 @@ function FilmManagementInform() {
 			var imageResponse, bannerResponse
 
 			if (selectedImage) {
-				console.log("Run here if have selected image")
 				let formSelectedImage = new FormData()
 				formSelectedImage.append("file", selectedImage)
 
@@ -176,7 +175,6 @@ function FilmManagementInform() {
 			}
 
 			if (selectedBanner) {
-				console.log("Run here if have selected banner")
 				let formSelectedBanner = new FormData()
 				formSelectedBanner.append("file", selectedBanner)
 
@@ -208,8 +206,6 @@ function FilmManagementInform() {
 				filmBanner: bannerResponse,
 			}
 
-			console.log(formBody)
-
 			await axios.patch(`/film/update-film/${_id}`, formBody, {
 				headers: {
 					"Content-Type": "application/json",
@@ -231,7 +227,6 @@ function FilmManagementInform() {
 
 	return (
 		<>
-			{console.log("Base array: ", arrayGenres)}
 			<div className="go-back-button">
 				<button onClick={() => handleGoBack()}>GO BACK</button>
 			</div>

@@ -347,6 +347,17 @@ const filmController = {
 			return res.status(500).json({ msg: err.message })
 		}
 	},
+	deleteFilm: async (req, res) => {
+		const { filmId } = req.params
+
+		try {
+			await Films.findByIdAndDelete(filmId)
+			await Comment.deleteOne({ filmId })
+			res.json("Success delete films")
+		} catch (err) {
+			return res.status(500).json({ msg: err.message })
+		}
+	},
 }
 
 module.exports = filmController

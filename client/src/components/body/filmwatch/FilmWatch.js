@@ -48,13 +48,9 @@ function FilmWatch() {
 							if (typeof historyObject !== "undefined") {
 								if (response.data.film.episodes.length > 0) {
 									const episodesArray = response.data.film.episodes
-									console.log(historyObject)
 									const exactEpisode = episodesArray.find(
 										(episode) => episode._id === historyObject.episodeId
 									)
-
-									console.log(exactEpisode)
-
 									if (exactEpisode) {
 										setCurrentTime(historyObject.currentTime)
 										setCurrentEpisode(exactEpisode.episodeUrl)

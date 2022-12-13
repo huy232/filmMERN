@@ -21,7 +21,9 @@ function Bookmark({ user }) {
 				for (let i = 0; i < user.bookmark.length; i++) {
 					let _id = user.bookmark[i].filmId
 					const response = await axios.get(`/film/specific-film/${_id}`)
-					arrayBookmark.push({ film: response.data.film })
+					if (response.data.film !== null) {
+						arrayBookmark.push({ film: response.data.film })
+					}
 				}
 				setBookmark(arrayBookmark)
 				setLoading(false)
@@ -48,20 +50,22 @@ function Bookmark({ user }) {
 				bookmark.length !== 0 && auth.user ? (
 					<div className="film-bookmark">
 						{bookmark.map((film) => (
-							<div className="bookmark-holder" key={film.film._id}>
+							<div className="bookmark-holder" key={film?.film?._id}>
 								<div className="bookmark-image">
-									<img src={film.film.filmImage} alt="" />
+									<img src={film?.film?.filmImage} alt="" />
 								</div>
 								<div className="bookmark-title" style={{ fontWeight: "700" }}>
 									<h4
 										style={{ fontSize: "1rem", margin: "8px 0" }}
-										title={film.film.filmName}
+										title={film?.film?.filmName}
 									>
-										{film.film.filmName}
+										{film?.film?.filmName}
 									</h4>
 								</div>
-								<div className="film-type">{film.film.type.toUpperCase()}</div>
-								<Link to={`/film-info/${film.film.filmSlug}`}>
+								<div className="film-type">
+									{film?.film?.type.toUpperCase()}
+								</div>
+								<Link to={`/film-info/${film?.film?.filmSlug}`}>
 									<button style={{ fontWeight: "bold" }}>PLAY</button>
 								</Link>
 								<button
@@ -69,7 +73,7 @@ function Bookmark({ user }) {
 									className="film-bookmark-delete-button"
 									style={{ fontWeight: "bold", marginTop: "10px" }}
 									onClick={() =>
-										handleRemoveBookmark(auth.user._id, film.film._id)
+										handleRemoveBookmark(auth.user._id, film?.film?._id)
 									}
 								>
 									DELETE

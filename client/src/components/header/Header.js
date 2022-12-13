@@ -43,12 +43,14 @@ function Header() {
 					<>
 						<li>
 							<Link to="/film-management">
-								<i className="fas fa-tasks" /> Management
+								<i className="fas fa-tasks" />
+								<p className="management-paragraph">Management</p>
 							</Link>
 						</li>
 						<li>
 							<Link to="/film-upload">
-								<i className="fas fa-film" /> Upload
+								<i className="fas fa-film" />
+								<p className="management-paragraph">Upload</p>
 							</Link>
 						</li>
 					</>

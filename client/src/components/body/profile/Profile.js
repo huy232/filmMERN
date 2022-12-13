@@ -8,6 +8,7 @@ import {
 } from "../../../redux/actions/usersAction"
 import AdminTable from "./AdminTable"
 import Bookmark from "./Bookmark"
+import { fetchUser, dispatchGetUser } from "../../../redux/actions/authAction"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -93,8 +94,23 @@ function Profile() {
 					Authorization: token,
 				},
 			})
+
+			await axios.patch(
+				`/user/update`,
+				{ avatar: res.data.url },
+				{
+					headers: {
+						"content-type": "multipart/form-data",
+						Authorization: token,
+					},
+				}
+			)
 			showSuccessToastMessage("Success update avatar")
 			setLoading(false)
+
+			fetchUser(token).then((res) => {
+				dispatch(dispatchGetUser(res))
+			})
 			setAvatar(res.data.url)
 		} catch (err) {
 			showToastMessage(err.response.data.msg)
@@ -112,21 +128,27 @@ function Profile() {
 				},
 				{ headers: { Authorization: token } }
 			)
-			setData({ ...data, err: "", success: "Update success" })
+			showSuccessToastMessage("Update success")
+			fetchUser(token).then((res) => {
+				dispatch(dispatchGetUser(res))
+			})
+			setData(initialState)
 		} catch (err) {
-			setData({ ...data, err: err.response.data.msg, success: "" })
+			showToastMessage(err.response.data.msg)
+			return setData({ ...data })
 		}
 	}
 
 	const updatePassword = () => {
-		if (isLength(password))
+		if (isLength(password)) {
+			showToastMessage("Password must be at least 6 characters")
 			return setData({
 				...data,
-				err: "Password must be at least 6 characters",
-				success: "",
 			})
+		}
 		if (!isMatch(password, cf_password)) {
-			return setData({ ...data, err: "Password did not match", success: "" })
+			showToastMessage("Password did not match")
+			return setData({ ...data })
 		}
 		try {
 			axios.post(
@@ -136,9 +158,11 @@ function Profile() {
 				},
 				{ headers: { Authorization: token } }
 			)
-			setData({ ...data, err: "", success: "Update success" })
+			showSuccessToastMessage("Update success")
+			setData({ ...data })
 		} catch (err) {
-			setData({ ...data, err: err.response.data.msg, success: "" })
+			showToastMessage(err.response.data.msg)
+			return setData({ ...data })
 		}
 	}
 
@@ -170,7 +194,7 @@ function Profile() {
 								type="file"
 								name="file"
 								id="file_up"
-								onChange={updateAvatar}
+								onChange={(e) => updateAvatar(e)}
 							/>
 						</div>
 					</div>
@@ -230,7 +254,7 @@ function Profile() {
 					</div>
 
 					<div className="update-button">
-						<button disabled={loading} onClick={handleUpdate}>
+						<button disabled={loading} onClick={() => handleUpdate()}>
 							Update
 						</button>
 					</div>

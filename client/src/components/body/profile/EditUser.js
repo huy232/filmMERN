@@ -99,7 +99,6 @@ function EditUser() {
 										className="email-disable"
 									/>
 								</div>
-								{console.log(num)}
 								<div
 									className="form-group radio"
 									onChange={(e) => handleOnChange(e)}

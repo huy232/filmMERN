@@ -247,7 +247,6 @@ function FilmUpload() {
 		<>
 			<ToastContainer />
 			<div className="film-upload">
-				{console.log({ selectedImage, preview, selectedBanner, previewBanner })}
 				<div className="film-upload-wrapper">
 					<div className="form-group__film-name">
 						<label htmlFor="filmName">NAME</label>
@@ -272,7 +271,6 @@ function FilmUpload() {
 					</div>
 					<div className="form-group__type" onChange={handleRadio}>
 						<label htmlFor="type">TYPE</label>
-						{console.log()}
 						<div
 							className={
 								data.type === "movie"

@@ -64,3 +64,178 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /* PROFILE */
 @import url("./components/body/profile/profile.css");
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 1600px) {
+	.overlay-subscription {
+		width: 80% !important;
+	}
+
+	.overlay-inside {
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	.film-browse__description p {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 4; /* number of lines to show */
+		line-clamp: 4;
+		-webkit-box-orient: vertical;
+	}
+}
+
+@media screen and (max-width: 1280px) {
+	.logo {
+		font-size: 0.6rem;
+	}
+
+	.management-paragraph {
+		display: none;
+	}
+
+	.subscription-slider {
+		width: 100% !important;
+	}
+
+	.subs__bottom {
+		flex-direction: row !important;
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	header {
+		justify-content: space-evenly !important;
+	}
+
+	.logo h1 {
+		font-size: 0.6rem;
+	}
+
+	header ul li {
+		padding: 2px 4px;
+	}
+
+	.drop-nav a {
+		margin: 0 4px;
+		padding: 2px;
+	}
+
+	.overlay-subscription {
+		position: relative !important;
+		width: 100% !important;
+		text-align: center;
+	}
+
+	.iframe-holder {
+		display: none;
+	}
+
+	.film-browse-utilities {
+		flex-direction: column !important;
+	}
+
+	.film-browse-utilities * {
+		margin: 10px 0;
+	}
+
+	.film-browse-utilities div label {
+		display: none;
+	}
+
+	.film-swiper-slide {
+		flex-direction: column !important;
+	}
+
+	.film-browse__image {
+		display: none;
+	}
+
+	.film {
+		margin: 0 !important;
+		padding: 4px;
+	}
+
+	.form-group__film-name,
+	.form-group__film-description,
+	.form-group__type,
+	.form-group__category,
+	.film-upload__image,
+	.film-upload__banner {
+		width: 70% !important;
+	}
+
+	.react-loading-skeleton,
+	.film-upload__holder-banner img {
+		width: auto !important;
+	}
+
+	.box-info-wrapper {
+		flex-direction: column !important;
+	}
+
+	.cover-wrapper {
+		width: 100% !important;
+	}
+
+	.box-info__film-left-detail {
+		border-right: none !important;
+		text-align: center !important;
+	}
+
+	.detail-wrapper {
+		width: 100% !important;
+	}
+
+	.profile-page {
+		flex-direction: column !important;
+	}
+
+	.col-right {
+		margin-top: 10px !important;
+	}
+
+	.sr-only {
+		display: none !important;
+	}
+
+	.profile-page .col-right {
+		margin: 10px 0 0 0 !important;
+		width: 95%;
+	}
+
+	.bookmark-holder {
+		text-align: center !important;
+		width: 100%;
+	}
+
+	.film-management-utilities {
+		flex-direction: column;
+	}
+
+	.film-management-holder {
+		flex-direction: column !important;
+		align-items: center;
+	}
+
+	.film-name-wrapper,
+	.film-description-wrapper {
+		width: 80% !important;
+	}
+
+	.three-wrapper,
+	.image-holder {
+		flex-direction: column !important;
+	}
+
+	.film-category-checkbox-wrapper {
+		width: 80% !important;
+	}
+
+	.film-banner img {
+		width: 100% !important;
+		height: auto !important;
+	}
+}

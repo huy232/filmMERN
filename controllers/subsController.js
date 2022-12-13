@@ -20,7 +20,6 @@ const subsController = {
 	},
 	stripeSession: async (req, res) => {
 		const { email, priceId } = req.body
-		console.log({ email: email, priceId: priceId })
 		try {
 			const user = await Users.findOne({ email })
 			const session = await stripe.checkout.sessions.create(
@@ -68,7 +67,6 @@ const subsController = {
 				for (i = 0; i < subscription.data.length; i++) {
 					plan.push(subscription.data[i].plan.nickname)
 				}
-				console.log(plan)
 				res.json(plan)
 			}
 		} catch (err) {

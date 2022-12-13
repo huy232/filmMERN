@@ -98,6 +98,11 @@ function FilmManagement() {
 		setGenreOption(value)
 	}
 
+	const handleDeleteEpisode = async (filmId) => {
+		await axios.delete(`/film/delete-film/${filmId}`)
+		setPage(1)
+	}
+
 	return (
 		<div className="film-management">
 			<div className="film-management-type">
@@ -211,7 +216,7 @@ function FilmManagement() {
 										<i className="far fa-edit"> Edit</i>
 									</Link>
 								</button>
-								<button>
+								<button onClick={() => handleDeleteEpisode(product._id)}>
 									<i className="fas fa-minus-square"> Delete</i>
 								</button>
 							</div>

@@ -229,7 +229,7 @@ function Browse({ type, customerStripeId }) {
 
 												<div className="film-browse__right-wrapper">
 													<div className="film-browse__description">
-														{product.filmDescription}
+														<p>{product.filmDescription}</p>
 													</div>
 
 													<div className="film-browse__utils">
